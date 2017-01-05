@@ -226,12 +226,10 @@
 						},
 						type: "GET",
 						dataType: "json",
-						url: 'https://api.araport.org/community/v0.3/araport/araport11_gff_region_to_jbrowse_v0.1/search?q=features&chr='+this.geneticElement.chromosome.identifier+'&start='+this.chromosome_start+'&end='+this.chromosome_end+'&completely_within=true&interbase=true',
-						//data: { locus: this.geneticElement.identifier },
+						url: 'https://api.araport.org/community/v0.3/araport/araport11_gene_structure_by_locus_v1.1/search?locus='+this.geneticElement.identifier,
 						success: $.proxy(function(data) {
 
 							this.geneModelRawData = JSON.stringify(data);
-							this.geneModelFeatures = data.features;
 							// size settings
 							var margin = 25;
 							var width = 550;
@@ -243,15 +241,20 @@
 								'font-size': '15px'
 							});
 
+							var geneModelFeatures = undefined;
+							for (var i=0;i<data.features.length;i++){
+							  if (data.features[i].uniqueID === this.geneticElement.identifier) {
+							    geneModelFeatures = data.features[i].subfeatures;
+							  }
+							}
 
-							for(var i =0;i<data.features.length;i++){
-								var start = data.features[i].start;
-								var end = data.features[i].end;
+							for(var i =0;i<geneModelFeatures.length;i++){
+								var start = geneModelFeatures[i].start;
+								var end = geneModelFeatures[i].end;
 								var length = Math.abs(end-start);
-								//var subfeatures = data.features[0].subfeatures[0].subfeatures;
-								var subfeatures = data.features[i].subfeatures;
-								var strand = data.features[i].strand;
-								var uniqueID = data.features[i].uniqueID;
+								var subfeatures = geneModelFeatures[i].subfeatures;
+								var strand = geneModelFeatures[i].strand;
+								var uniqueID = geneModelFeatures[i].uniqueID;
 								/* Identifier */
 								var tr = document.createElement("tr");
 								/* Label */
@@ -295,9 +298,9 @@
 										svg.polyline([ [0,height/2], [10,25], [10, 35] ], {fill:'#000000', stroke: 'none'});
 									}
 
-									// sort the subfeatures by type so five_prime_UTR doesn't get overdrawn by exons
+									// sort the subfeatures by type so CDS doesn't get overdrawn by exons/UTRs
 									subfeatures.sort( function(a,b) {
-										return (a.type > b.type) - (a.type < b.type);
+										return -1 * (a.type > b.type) - (b.type > a.type);
 									});
 
 									// draw each GFF
@@ -316,9 +319,8 @@
 										else if (subfeatures[i].type === "CDS") {
 											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#999999', stroke: 'none', cursor: 'pointer'});
 										}
-
 										else if (subfeatures[i].type === "exon") {
-											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#999999', stroke: 'none', cursor: 'pointer'});
+											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
 										}
 										else if (subfeatures[i].type != "mRNA") {
 											rec = svg.rect(margin + x, (height/2)-2, w, 4, {fill: '#999999', stroke: 'none'});
