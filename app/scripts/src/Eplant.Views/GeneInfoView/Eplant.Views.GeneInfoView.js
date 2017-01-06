@@ -25,6 +25,7 @@
 
 		// Attributes
 		this.geneticElement = geneticElement;
+		this.geneticElementType = undefined;
 		this.viewMode ="geneinfo";
 
 		if(this.name)
@@ -242,10 +243,26 @@
 							});
 
 							var geneModelFeatures = undefined;
+							var parentFeatType, childFeatType = undefined, undefined;
 							for (var i=0;i<data.features.length;i++){
 							  if (data.features[i].uniqueID === this.geneticElement.identifier) {
 							    geneModelFeatures = data.features[i].subfeatures;
+								parentFeatType = data.features[i].type;
+								childFeatType = geneModelFeatures[0].type;
 							  }
+							}
+
+							// set geneticElementType based on parent/child features
+							if (parentFeatType === 'gene') {
+								if (childFeatType === 'mRNA') {
+									this.geneticElementType = 'protein_coding';
+								} else if (childFeatType === 'transcript_region') {
+									this.geneticElementType = 'novel_transcribed_region';
+								} else {
+									this.geneticElementType = 'non_coding';
+								}
+							} else {
+								this.geneticElementType = parentFeatType;
 							}
 
 							for(var i =0;i<geneModelFeatures.length;i++){
@@ -304,6 +321,7 @@
 									});
 
 									// draw each GFF
+									var skipExons = false;
 									for (var i = 0; i < subfeatures.length; i++) {
 
 										// get x position
@@ -312,17 +330,19 @@
 										// get width
 										var w =( (Math.abs(subfeatures[i].end - subfeatures[i].start)) / length ) * width;
 
-										var rec;
-										if (subfeatures[i].type === "five_prime_UTR"||subfeatures[i].type === "three_prime_UTR") {
-											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
+										var rec = undefined;
+										if (subfeatures[i].type.endsWith('UTR')) {
+											rec = svg.rect(margin + x, (height/2)-10+4, w, 12, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
+											skipExons = true;	// if UTRs are present, skip drawing the exons
 										}
 										else if (subfeatures[i].type === "CDS") {
 											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#999999', stroke: 'none', cursor: 'pointer'});
 										}
 										else if (subfeatures[i].type === "exon") {
-											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
+											if (!skipExons)
+												rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
 										}
-										else if (subfeatures[i].type != "mRNA") {
+										else if (subfeatures[i].type !== "mRNA") {
 											rec = svg.rect(margin + x, (height/2)-2, w, 4, {fill: '#999999', stroke: 'none'});
 										}
 
@@ -428,7 +448,6 @@
 
 
 	};
-
 
 
 	/**
