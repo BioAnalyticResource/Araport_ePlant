@@ -174,7 +174,7 @@
 			}
 
 			// Gene Summary information from Araport:
-			$.ajax({
+			var getGeneSummary = $.ajax({
 				beforeSend: function(request) {
 					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 				},
@@ -219,9 +219,12 @@
 
 					}
 
+				},this)
+			});
+
 
 					// Get Data For Gene Model
-					$.ajax({
+					var getGeneStructure = $.ajax({
 						beforeSend: function(request) {
 							request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 						},
@@ -382,18 +385,40 @@
 									}
 								}
 							}
-						},this)
-					});
+							// Only get protein sequence if geneticElementType is 'protein_coding'
+							if (this.geneticElementType === 'protein_coding') {
+								$.ajax({
+									beforeSend: function(request) {
+										request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
+									},
+									type: "GET",
+									dataType: "json",
+									url: 'https://api.araport.org/community/v0.3/aip/get_protein_sequence_by_identifier_v0.2/search?identifier='+this.geneticElement.identifier+'.1',
+									error: $.proxy(function() {
+										$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
+										this.loadFail();
+									},this),
+									success: $.proxy(function(summary) {
+										if(summary.result&&summary.result.length>0){
+											this.modelRawData = JSON.stringify(summary);
+											$("#"+config.IDs.divProteinSequenceId,this.domContainer).html(">"+this.geneticElement.identifier+".1"+"<br/>"+summary.result[0].sequence);
+										}
+										else{
+											$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
+											this.loadFail();
+										}
 
+									},this)
+								});
+							}
 				},this)
-			});
-
+            });
 
 
 
 
 			// Get DNA sequence
-			$.ajax({
+			var getGenomeSequence = $.ajax({
 				beforeSend: function(request) {
 					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 				},
@@ -412,30 +437,6 @@
 						$("#"+config.IDs.divDNAsequenceId,this.domContainer).text("The service is not responding, please try again later.");
 						this.loadFail();
 					}
-				},this)
-			});
-
-			$.ajax({
-				beforeSend: function(request) {
-					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
-				},
-				type: "GET",
-				dataType: "json",
-				url: 'https://api.araport.org/community/v0.3/aip/get_protein_sequence_by_identifier_v0.2/search?identifier='+this.geneticElement.identifier+'.1',
-				error: $.proxy(function() {
-					$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
-					this.loadFail();
-				},this),
-				success: $.proxy(function(summary) {
-					if(summary.result&&summary.result.length>0){
-						this.modelRawData = JSON.stringify(summary);
-						$("#"+config.IDs.divProteinSequenceId,this.domContainer).html(">"+this.geneticElement.identifier+".1"+"<br/>"+summary.result[0].sequence);
-					}
-					else{
-						$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
-						this.loadFail();
-					}
-
 				},this)
 			});
 
