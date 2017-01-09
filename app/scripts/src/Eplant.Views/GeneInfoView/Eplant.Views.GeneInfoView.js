@@ -309,7 +309,7 @@
 									svg.rect(5, (height/2)-1, width+(margin*2)-10, 2, {fill: '#000000', stroke: 'none'});
 
 									// directional arrows
-									if (strand === "+" ||strand === 1 ) {
+									if (strand === "+" || strand === "1" ) {
 										// arrow right
 										svg.polyline([ [width+(margin*2),height/2], [width+(margin*2)-10,25], [width+(margin*2)-10, 35] ], {fill:'#000000', stroke: 'none'});
 									}
