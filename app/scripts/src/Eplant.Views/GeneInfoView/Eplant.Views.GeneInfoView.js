@@ -25,6 +25,7 @@
 
 		// Attributes
 		this.geneticElement = geneticElement;
+		this.geneticElementType = undefined;
 		this.viewMode ="geneinfo";
 
 		if(this.name)
@@ -173,7 +174,7 @@
 			}
 
 			// Gene Summary information from Araport:
-			$.ajax({
+			var getGeneSummary = $.ajax({
 				beforeSend: function(request) {
 					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 				},
@@ -218,20 +219,21 @@
 
 					}
 
+				},this)
+			});
+
 
 					// Get Data For Gene Model
-					$.ajax({
+					var getGeneStructure = $.ajax({
 						beforeSend: function(request) {
 							request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 						},
 						type: "GET",
 						dataType: "json",
-						url: 'https://api.araport.org/community/v0.3/araport/araport11_gff_region_to_jbrowse_v0.1/search?q=features&chr='+this.geneticElement.chromosome.identifier+'&start='+this.chromosome_start+'&end='+this.chromosome_end+'&completely_within=true&interbase=true',
-						//data: { locus: this.geneticElement.identifier },
+						url: 'https://api.araport.org/community/v0.3/araport/araport11_gene_structure_by_locus_v1.1/search?locus='+this.geneticElement.identifier,
 						success: $.proxy(function(data) {
 
 							this.geneModelRawData = JSON.stringify(data);
-							this.geneModelFeatures = data.features;
 							// size settings
 							var margin = 25;
 							var width = 550;
@@ -243,15 +245,36 @@
 								'font-size': '15px'
 							});
 
+							var geneModelFeatures = undefined;
+							var parentFeatType, childFeatType = undefined, undefined;
+							for (var i=0;i<data.features.length;i++){
+							  if (data.features[i].uniqueID === this.geneticElement.identifier) {
+							    geneModelFeatures = data.features[i].subfeatures;
+								parentFeatType = data.features[i].type;
+								childFeatType = geneModelFeatures[0].type;
+							  }
+							}
 
-							for(var i =0;i<data.features.length;i++){
-								var start = data.features[i].start;
-								var end = data.features[i].end;
+							// set geneticElementType based on parent/child features
+							if (parentFeatType === 'gene') {
+								if (childFeatType === 'mRNA') {
+									this.geneticElementType = 'protein_coding';
+								} else if (childFeatType === 'transcript_region') {
+									this.geneticElementType = 'novel_transcribed_region';
+								} else {
+									this.geneticElementType = 'non_coding';
+								}
+							} else {
+								this.geneticElementType = parentFeatType;
+							}
+
+							for(var i =0;i<geneModelFeatures.length;i++){
+								var start = geneModelFeatures[i].start;
+								var end = geneModelFeatures[i].end;
 								var length = Math.abs(end-start);
-								//var subfeatures = data.features[0].subfeatures[0].subfeatures;
-								var subfeatures = data.features[i].subfeatures;
-								var strand = data.features[i].strand;
-								var uniqueID = data.features[i].uniqueID;
+								var subfeatures = geneModelFeatures[i].subfeatures;
+								var strand = geneModelFeatures[i].strand;
+								var uniqueID = geneModelFeatures[i].uniqueID;
 								/* Identifier */
 								var tr = document.createElement("tr");
 								/* Label */
@@ -295,12 +318,13 @@
 										svg.polyline([ [0,height/2], [10,25], [10, 35] ], {fill:'#000000', stroke: 'none'});
 									}
 
-									// sort the subfeatures by type so five_prime_UTR doesn't get overdrawn by exons
+									// sort the subfeatures by type so CDS doesn't get overdrawn by exons/UTRs
 									subfeatures.sort( function(a,b) {
-										return (a.type > b.type) - (a.type < b.type);
+										return -1 * (a.type > b.type) - (b.type > a.type);
 									});
 
 									// draw each GFF
+									var skipExons = false;
 									for (var i = 0; i < subfeatures.length; i++) {
 
 										// get x position
@@ -309,18 +333,19 @@
 										// get width
 										var w =( (Math.abs(subfeatures[i].end - subfeatures[i].start)) / length ) * width;
 
-										var rec;
-										if (subfeatures[i].type === "five_prime_UTR"||subfeatures[i].type === "three_prime_UTR") {
-											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
+										var rec = undefined;
+										if (subfeatures[i].type.endsWith('UTR')) {
+											rec = svg.rect(margin + x, (height/2)-10+4, w, 12, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
+											skipExons = true;	// if UTRs are present, skip drawing the exons
 										}
 										else if (subfeatures[i].type === "CDS") {
 											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#999999', stroke: 'none', cursor: 'pointer'});
 										}
-
 										else if (subfeatures[i].type === "exon") {
-											rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#999999', stroke: 'none', cursor: 'pointer'});
+											if (!skipExons)
+												rec = svg.rect(margin + x, (height/2)-10, w, 20, {fill: '#cccccc', stroke: 'none', cursor: 'pointer'});
 										}
-										else if (subfeatures[i].type != "mRNA") {
+										else if (subfeatures[i].type !== "mRNA") {
 											rec = svg.rect(margin + x, (height/2)-2, w, 4, {fill: '#999999', stroke: 'none'});
 										}
 
@@ -360,18 +385,40 @@
 									}
 								}
 							}
-						},this)
-					});
+							// Only get protein sequence if geneticElementType is 'protein_coding'
+							if (this.geneticElementType === 'protein_coding') {
+								$.ajax({
+									beforeSend: function(request) {
+										request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
+									},
+									type: "GET",
+									dataType: "json",
+									url: 'https://api.araport.org/community/v0.3/aip/get_protein_sequence_by_identifier_v0.2/search?identifier='+this.geneticElement.identifier+'.1',
+									error: $.proxy(function() {
+										$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
+										this.loadFail();
+									},this),
+									success: $.proxy(function(summary) {
+										if(summary.result&&summary.result.length>0){
+											this.modelRawData = JSON.stringify(summary);
+											$("#"+config.IDs.divProteinSequenceId,this.domContainer).html(">"+this.geneticElement.identifier+".1"+"<br/>"+summary.result[0].sequence);
+										}
+										else{
+											$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
+											this.loadFail();
+										}
 
+									},this)
+								});
+							}
 				},this)
-			});
-
+            });
 
 
 
 
 			// Get DNA sequence
-			$.ajax({
+			var getGenomeSequence = $.ajax({
 				beforeSend: function(request) {
 					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 				},
@@ -393,30 +440,6 @@
 				},this)
 			});
 
-			$.ajax({
-				beforeSend: function(request) {
-					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
-				},
-				type: "GET",
-				dataType: "json",
-				url: 'https://api.araport.org/community/v0.3/aip/get_protein_sequence_by_identifier_v0.2/search?identifier='+this.geneticElement.identifier+'.1',
-				error: $.proxy(function() {
-					$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
-					this.loadFail();
-				},this),
-				success: $.proxy(function(summary) {
-					if(summary.result&&summary.result.length>0){
-						this.modelRawData = JSON.stringify(summary);
-						$("#"+config.IDs.divProteinSequenceId,this.domContainer).html(">"+this.geneticElement.identifier+".1"+"<br/>"+summary.result[0].sequence);
-					}
-					else{
-						$("#"+config.IDs.divProteinSequenceId,this.domContainer).text("The service is not responding, please try again later.");
-						this.loadFail();
-					}
-
-				},this)
-			});
-
 			this.loadFinish();
 		},this));
 	};
@@ -426,7 +449,6 @@
 
 
 	};
-
 
 
 	/**
