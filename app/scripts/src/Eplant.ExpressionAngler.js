@@ -35,13 +35,16 @@
 		// Data for Expression Angler Post request 
 		var eaRegEx = /(.*)\?(agi_id=.*)/gmi;
 		var eaMatch = eaRegEx.exec(URL);
+	
+		// Fix for EA pointed out by reviews	
+		requestData = "request={\"url\":\"" + encodeURIComponent(eaMatch[2]) + "\"}";
 		
 		Eplant.expressionXhrService = $.ajax({
 			beforeSend: function(request) {
 				request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 			},
 			url: eaMatch[1],
-			data: eaMatch[2], 
+			data: requestData, 
 			type: "post",
 			success: $.proxy(function( data ) {
 				var doc = $.parseHTML(data)

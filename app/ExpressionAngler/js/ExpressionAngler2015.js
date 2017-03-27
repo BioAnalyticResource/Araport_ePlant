@@ -14,7 +14,7 @@ EAMode = "search";
 
 /* -------------------------------------------------- */
 // Build JSON array to hold all XML group names and sample Names
-var ADAMAUrl = "https://api.araport.org/community/v0.3/asher-live/expression_angler_service_v0.3/access/"
+var ADAMAUrl = "https://api.araport.org/community/v0.3/asher-live/expression_angler_service_v0.4/access/"
 var allViews = [ "DevelopmentalMap",
 	"Chemical",
 	"AbioticStress"	,
@@ -1476,7 +1476,7 @@ function generateStandardSearchQuery() {
 			var allTissuesInDb = allTissuesLookUp[activeViewLookUp.database];
 			var valid = false;
 			var search = "";
-			var URL = ADAMAUrl + "ntools_expression_angler.cgi?";		
+			var URL = ADAMAUrl + "expression_angler_caller.php?";		
 			var agiID = "";
 			var agiIDOnly = "";
 			var customOrId = "";  
@@ -1512,7 +1512,7 @@ function generateStandardSearchQuery() {
 			
 			
 			// start building the search
-			search = URL+agiID+customOrId+lowerRcutoff+upperRcutoff+match_count;
+			search = URL + agiID+customOrId+lowerRcutoff+upperRcutoff+match_count;
 			
 			// add the tissues
 			if ( !searchById ) {
