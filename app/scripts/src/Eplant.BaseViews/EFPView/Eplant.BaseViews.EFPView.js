@@ -15,7 +15,7 @@
 		* @param {Boolean} configs.isMaskEnabled Whether masking is enabled.
 	*/
 	Eplant.BaseViews.EFPView = function(geneticElement, efpSvgURL, efpXmlURL, configs) {
-		
+		this.domContainer = $("#efp_container");
 		/* Attributes */
 		this.isEFPView=true;
 		this.viewMode = "svg";
@@ -581,7 +581,7 @@
 			url: this.xmlURL,
 			dataType: "xml",
 			success: $.proxy(function(response) {
-				// this.Xhrs.loadDataXhr =null; // Araport: Not sure what this does
+				this.Xhrs.loadDataXhr =null; // Araport
 				var infoXml = $(response).find('info');
 				if (infoXml.length > 0) {
 					this.infoHtml = infoXml.html();
@@ -596,7 +596,7 @@
 					} else {
 					if(this.database){
 						
-						this.webService = Eplant.ServiceUrl + "plantefp.cgi?datasource=" + this.database+"&";
+						this.webService = Eplant.ServiceUrl + "plantefp.cgi?datasource="+this.database+"&";
 					}
 					else{
 						
@@ -703,9 +703,8 @@
 					samples: samples,
 					eFPView: this
 				};
-			
 				/* Query */
- 				this.Xhrs.loadSamplesXhr = $.ajax({
+				this.Xhrs.loadSamplesXhr = $.ajax({
 					beforeSend: function(request) {
 						request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 					},
@@ -730,17 +729,16 @@
 						if(haveNulls){
 							this.eFPView.errorLoadingMessage="The sample database does not have any information for this gene.";
 						}
-						else {
+						else{
 							for (var n = 0; n < this.samples.length; n++) {
 								for (var m = 0; m < response.length; m++) {
 									if (this.samples[n].name == response[m].name) {
 										this.samples[n].value = Number(response[m].value);
 										break;
 									}
-								}	
+								}
 							}
 						}
-						
 						/* Process values */
 						this.eFPView.processValues();
 					}, wrapper)
@@ -752,7 +750,6 @@
 	Eplant.BaseViews.EFPView.prototype.loadFinish = function() {
 		/* Call parent method */
 		Eplant.View.prototype.loadFinish.call(this);
-		
 	};
 	
 	/**
@@ -857,6 +854,7 @@
 					}
 				}
 			}
+			
 		}, this,null,this.geneticElement.identifier+"_Loading");
 		/* Update eFP */
 		//this.eFPView.updateDisplay();
@@ -956,7 +954,10 @@
 				extremum = this.extremum;
 				break;
 				case "globalAbsolute" :
-				if(/*Eplant.experimentColorMode==="all"&&this.magnification===35*/this.viewName!="CellView"){
+				if(!this.geneticElement.species.extremum){
+					extremum = this.extremum;
+				}
+				else if(/*Eplant.experimentColorMode==="all"&&this.magnification===35*/this.viewName!="CellView"){
 					extremum= this.geneticElement.species.extremum;//experimentViewExtremum;
 				}
 				else{
@@ -1029,7 +1030,10 @@
 				max = this.max;
 				break;
 				case "globalAbsolute" :
-				if(/*Eplant.experimentColorMode==="all"&&this.magnification===35*/this.viewName!="CellView"){
+				if(!this.geneticElement.species.max){
+					max = this.max;
+				}
+				else if(/*Eplant.experimentColorMode==="all"&&this.magnification===35*/this.viewName!="CellView"){
 					max= this.geneticElement.species.max;//experimentViewMax;
 				}
 				else{

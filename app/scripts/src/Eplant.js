@@ -11,7 +11,7 @@
 	Eplant = {};
 	
 	/* Constants */
-	Eplant.ServiceUrl = 'https://api.araport.org/community/v0.3/asher-live/eplant_service_v0.5/access/'; // Base services url
+	Eplant.ServiceUrl = 'https://api.araport.org/community/v0.3/asher-live/eplant_service_v0.6/access/'; // Base services url
 	ExpressionAnglerUrl = 'https://api.araport.org/community/v0.3/asher-live/expression_angler_service_v0.3/access/'; // Expression Angler URL
 
 	Eplant.Year = "2016";
@@ -60,7 +60,7 @@
 	Eplant.citations = {};
 	
 	Eplant.viewInstructions={};
-	Eplant.globalColorMode = "absolute";
+	Eplant.globalColorMode = "globalAbsolute";
 	Eplant.viewColorMode = "absolute";
 	Eplant.experimentColorMode = "all";
 	Eplant.customGlobalExtremum = 5;
@@ -273,8 +273,7 @@
 		var hasQueryString = false;
 		var geneIdentifiers;
 		var activeSpeciesName = Eplant.activeSpecies.scientificName;
-		//var url = [location.protocol, '//', location.host, location.pathname].join('');
-		var url = "http://bar.utoronto.ca/eplant/";	// Araport
+		var url = [location.protocol, '//', location.host, location.pathname].join('');
 		if(Eplant.activeSpecies)
 		{
 			url += hasQueryString ? '&' : '?';
@@ -527,7 +526,12 @@
 			}, obj)).fail($.proxy(function(response) {
 			obj.dialog.content('No citation information available for this view.');
 		}, obj));*/
-		dialog.content(Eplant.citations[Eplant.activeSpecies.scientificName][Eplant.activeView.name]);
+		if(Eplant.activeView.citation){
+			dialog.content(Eplant.activeView.citation);	
+			
+		}else{
+			dialog.content(Eplant.citations[Eplant.activeSpecies.scientificName][Eplant.activeView.name]);	
+		}
 	};
 	Eplant.expressionAnglerClick = function() {
 		DialogManager.artDialogUrl('app/ExpressionAngler/index.html?data=' + Agave.token.accessToken, {
@@ -616,6 +620,7 @@
 					beforeSend: function(request) {
 						request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 					},
+
 					type: "GET",
 					url: Eplant.ServiceUrl +  "idautocomplete.cgi?species=" + Eplant.activeSpecies.scientificName.split(" ").join("_") + "&term=" + last,
 					dataType: "json"
@@ -1169,8 +1174,9 @@
 					width: $(window).width() - 312 + "px"
 				}, 500);
 				
+				
 				$(".toggleArrow").attr('src',"app/img/arrow-left-clear-bg.png");
-
+				
 				Eplant.sidebarOpen = true;
 				$(":animated").promise().done(function() {
 					var evt = document.createEvent('UIEvents');
@@ -1199,7 +1205,6 @@
 					marginLeft: left,
 					width: $(window).width()- 68 + "px"
 				}, 500);
-
 				$(".toggleArrow").attr('src',"app/img/arrow-right-clear-bg.png");
 				Eplant.sidebarOpen = false;
 				
@@ -1209,6 +1214,7 @@
 					window.dispatchEvent(evt);
 					respondCanvas();
 				});
+				
 			}
 		});
 		/*$(document).mousemove(function(e){
@@ -1634,9 +1640,18 @@
 			
 			Eplant.queue.add(function(){
 				event.target.updateMax();
-				species.updateGlobalMax();
 				//event.target.updateEFPViews();
-				
+				var needUpdate = false;
+				if(!species.max){
+					needUpdate = true;
+				}
+				species.updateGlobalMax();
+				if(needUpdate){
+					for (var n = 0; n < species.geneticElements.length; n++) {
+						var geneticElement = species.geneticElements[n];
+						geneticElement.updateEFPViews();
+					}
+				}		
 			},Eplant,null,event.target.identifier+"_Loading");
 			
 			Eplant.queue.add(function(){
@@ -1698,11 +1713,9 @@
 		ZUI.addEventListener(eventListener);
 		
 		var eventListener = new ZUI.EventListener("genes-all-loaded", null, function(event, eventData, listenerData) {
-			
+		
 			Eplant.activeSpecies.updateGlobalMax();
-			
-			
-			
+
 		}, {});
 		ZUI.addEventListener(eventListener);
 	};
@@ -1786,6 +1799,7 @@
 	*/
 	Eplant.loadSpecies = function() {
 		if (!this.isLoadedSpecies) {
+
 			$.ajax({
 				beforeSend: function(request) {
 					request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
@@ -1794,6 +1808,7 @@
 				dataType: "json",
 				url: Eplant.ServiceUrl + 'speciesinfo.cgi',
 				success: $.proxy(function(response) {
+
 					/* Loop through species */
 					for (var n = 0; n < response.length; n++) {
 						/* Get data for this species */
@@ -1809,11 +1824,6 @@
 						
 						/* Add Species to ePlant */
 						Eplant.addSpecies(species);
-
-						/* Araport: Set Arabidopsis as active species */
-						if (n == 0) {
-							Eplant.setActiveSpecies(species);
-						}
 					}
 					
 					/* Set Species load status */

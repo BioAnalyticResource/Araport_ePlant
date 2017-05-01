@@ -37,6 +37,17 @@
 			isMaskEnabled: false
 		});
 		this.geneDistributionChart=null;
+		this.generateCitation();
+		
+		this.includedPredicted = false;
+		
+		this.includedPredictedDom = document.createElement("p");
+		$(this.includedPredictedDom).addClass('includedPredictedLabel');
+
+		var includedPredictedSpan = document.createElement("span");
+		includedPredictedSpan.appendChild(document.createTextNode("Predictions included, see Citation and Experiment Information"));
+		$(includedPredictedSpan).appendTo(this.includedPredictedDom);
+		
 	};
 	ZUI.Util.inheritClass(Eplant.BaseViews.EFPView, Eplant.Views.CellView);	// Inherit parent prototype
 	
@@ -50,14 +61,36 @@
 	Eplant.Views.CellView.availableIconImageURL = "app/img/available/cell.png";
 	Eplant.Views.CellView.unavailableIconImageURL = "app/img/unavailable/cell.png";
 	
-	/* Draw method for Cell View */
-	Eplant.Views.CellView.prototype.draw = function() {
-		Eplant.BaseViews.EFPView.prototype.draw.call(this);
-	};
+	Eplant.Views.CellView.prototype.active = function() {
+			/* Call parent method */
+		Eplant.BaseViews.EFPView.prototype.active.call(this);
+		if(this.includedPredicted){
+			$(Eplant.ViewModes[this.viewMode]).append(this.includedPredictedDom);
+			
+		}
+	}
 	
-	/* Clear up the view */
-	Eplant.Views.CellView.prototype.remove = function() {
-		Eplant.BaseViews.EFPView.prototype.remove.call(this);
+	Eplant.Views.CellView.prototype.inactive = function() {
+			/* Call parent method */
+		Eplant.BaseViews.EFPView.prototype.inactive.call(this);
+		if(this.includedPredictedDom){
+			$(this.includedPredictedDom).detach();
+		}
+	}
+	
+	
+		if(this.labelDom){
+			$(this.labelDom).detach();
+		}
+	
+	Eplant.Views.CellView.prototype.generateCitation = function() {
+		this.citation='<h2>Citation information for this view</h2><br>';
+			this.citation += "The data come from Tanz SK, Castleden I, Hooper CM, Vacher M, Small I; Millar, AH (2013) SUBA3: a database for integrating experimentation and prediction to define the SUBcellular location of proteins in Arabidopsis. Nucleic Acids Res. 41: D1185-91<br><br>The SUBA3 database contains information on the computationally predicted and experimentally documented subcellular localization of many Arabidopsis proteins. We apply the formula indicated in the Material and Methods section of Winter et al. 2007 (doi: 10.1371/journal.pone.0000718) to generate a confidence score for each distinct subcellular compartment or region, with experimentally-determined localizations being weighted five times more than predicted ones. The higher the confidence score for a given subcellular compartment, the more intense the red colour in the Cell eFP Browser output. <br><br> See further details at SUBA: <a href='http://suba.plantenergy.uwa.edu.au/flatfile.php?id="+this.geneticElement.identifier+"'>http://suba.plantenergy.uwa.edu.au/flatfile.php?id="+this.geneticElement.identifier+"</a>";
+						if(this.infoHtml){
+						content +="<br><br><h2>Experiment information for this view</h2><br>"+this.infoHtml;
+					}
+			this.citation += "<br><br>This image was generated with the " + Eplant.Views.CellView.displayName + " at bar.utoronto.ca/eplant by "+Eplant.AuthoursW+" "+Eplant.Year+".";
+
 	};
 	
 	Eplant.Views.CellView.prototype.loadsvg = function() {
@@ -550,10 +583,6 @@
 		}
 	};
 	
-	
-	
-	
-	
 	/**
 		* Loads eFP definition and data.
 		*
@@ -568,7 +597,7 @@
 			dataType: "xml",
 			success: $.proxy(function(response) {
 				this.Xhrs.loadDataXhr=null;
-				this.webService = "//bar.utoronto.ca/eplant/cgi-bin/cellefp.cgi?";
+				this.webService = Eplant.ServiceUrl + "cellefp.cgi?";
 				/* Prepare array for samples loading */
 				var samples = [];
 				
@@ -643,14 +672,19 @@
 					},
 					dataType: "json",
 					url: Eplant.ServiceUrl + "cellefp.cgi?id=" + this.geneticElement.identifier, 
+					dataType: 'json',
 					success: $.proxy(function(response) {
+						if(response.includes_predicted === "yes"){
+							this.eFPView.includedPredicted = true;
+						}
 						this.eFPView.Xhrs.loadSamplesXhr=null;
 						this.eFPView.rawSampleData= JSON.stringify(response);
 						/* Match results with samples and copy values to samples */
 						for (var n = 0; n < this.samples.length; n++) {
-							for (var m = 0; m < response.length; m++) {
-								if (this.samples[n].name.toUpperCase() == response[m].name.toUpperCase()) {
-									this.samples[n].value = Number(response[m].value);
+							responseSamples = response.data;
+							for (var m = 0; m < responseSamples.length; m++) {
+								if (this.samples[n].name.toUpperCase() == responseSamples[m].name.toUpperCase()) {
+									this.samples[n].value = Number(responseSamples[m].value);
 									break;
 								}
 							}
@@ -658,7 +692,6 @@
 						
 						/* Process values */
 						this.eFPView.processValues();
-						
 					
 					}, wrapper),
 					error: $.proxy(function(jqXHR, status, errorThrown){   //the status returned will be "timeout"
@@ -667,10 +700,7 @@
 					}, this)//,
 					//timeout: 100000 //10 second timeout
 				});
-				
-				
 			},this)
 		});
 	};
-	
 })();

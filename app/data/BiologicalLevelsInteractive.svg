@@ -834,14 +834,16 @@
 
 
   // SHOW WORLD EFP LEVELS ONLY
-  function world_eFP() {
-    World_eFP_button.style.stroke = "#99CC00";
-    natural_variation.style.opacity = "1";
-    natural_variation.style.transform = "scale(1.15,1.15)";
-    DNA_sequence.style.opacity = "1";
-    DNA_sequence.style.transform = "scale(1.15,1.15)";
-    RNA_sequence.style.opacity = "1";
-    RNA_sequence.style.transform = "scale(1.15,1.15)";
+  function world_eFP() {		
+	World_eFP_button.style.stroke = "#99CC00";		
+	natural_variation.style.opacity = "1";		
+	natural_variation.style.transform = "scale(1.15,1.15)";		
+	DNA_sequence.style.opacity = "1";		
+	DNA_sequence.style.transform = "scale(1.15,1.15)";		
+	RNA_sequence.style.opacity = "1";		
+	RNA_sequence.style.transform = "scale(1.15,1.15)";	
+	environment.style.opacity = "1";	
+	environment.style.transform = "scale(1.15,1.15)";	
   }
 
   // SHOW PLANT EFP LEVELS ONLY
@@ -851,6 +853,9 @@
     localization.style.transform = "scale(1.15,1.15)";
     RNA_sequence.style.opacity = "1";
     RNA_sequence.style.transform = "scale(1.15,1.15)";
+	phenotype.style.opacity = "1";
+    phenotype.style.transform = "scale(1.15,1.15)";
+	
   }
 
   // SHOW EXPERIMENT EFP LEVELS ONLY

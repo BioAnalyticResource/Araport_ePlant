@@ -71,18 +71,16 @@
 		'cartoons on;' +		//Turn on cartoons
 		'color structure;'		//Color structures
 		;
-		/*
-		this.info = {
+		/*this.info = {
 			width: ZUI.width,
 			height: ZUI.height,
 			use: "HTML5",
-			j2sPath: "app/scripts/lib/JSmol/j2s",
+			j2sPath: "app/lib/JSmol/j2s",
 			script: 'set defaultloadscript "' + this.defaultLoadScript + '";',
 			disableJ2SLoadMonitor: true,
 			disableInitialConsole: true
-		};
+			};
 		*/
-		
 		// define loaded function to jsmol
 		Eplant.Views.MoleculeView.loadedFunctions[this.geneticElement.identifier+'_loaded']=$.proxy(this.structureLoaded,this);
 		//this.info.loadstructcallback = 'Eplant.Views.MoleculeView.loadedFunctions.'+this.geneticElement.identifier+'_loaded';
@@ -151,9 +149,30 @@
 		});
 
 		Eplant.Views.MoleculeView.Params.acidLetterMap = $.getJSON(Eplant.Views.MoleculeView.Params.acidLetterMapUrl, function(data) {
-			Eplant.Views.MoleculeView.Params.acidLetterMap =  data;
+			Eplant.Views.MoleculeView.Params.acidLetterMap = data;
 		});
 
+	};
+	
+	Eplant.Views.MoleculeView.prototype.generateCitation = function(template,eValue,pdbid) {
+		
+		this.citation='<h2>Citation information for this view</h2><br>';
+		if(template&&eValue){
+			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). The PDB template used to model this structure was '+template+' and the HMMPred e-value was '+eValue+'. <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
+					
+				
+			
+		}else if(pdbid){
+			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). The 3D molecule data come from the PDB, doi: 10.2210/pdb'+pdbid+'/pdb”. <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
+		}else{
+			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
+			
+		}
+					if(this.infoHtml){
+						content +="<br><br><h2>Experiment information for this view</h2><br>"+this.infoHtml;
+					}
+		this.citation += "<br><br>This image was generated with the " + Eplant.Views.MoleculeView.displayName + " at bar.utoronto.ca/eplant by "+Eplant.AuthoursW+" "+Eplant.Year+".";
+		
 	};
 
 	Eplant.Views.MoleculeView.prototype.loadData = function(fileURL) {
@@ -168,17 +187,24 @@
 				success: $.proxy(function(response) {
 					var moleculeSequenceStringArr = [];
 					if (response.link != "") {
+						
+						var regexp = /[^\/]*(?=[.][a-zA-Z]+$)/g;
+						var matches_array = response.link.match(regexp);
+						this.generateCitation(response.template,response['HMMpred_e-value'],matches_array[0]);
 						this.moleculeModelRawText = JSON.stringify(response);
-						var fileLink = response.link.match("Phyre2_AT.+pdb");
+						var fileLink = "";
+						fileLink = response.link.match("Phyre2_AT.+pdb");
+						if (fileLink == "") {
+							fileLink = response.link.match("....\.pdb");
+						}
 						$.ajax({
 							beforeSend: function(request) {
 								request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 							},
 							url: Eplant.ServiceUrl + 'getPhyre2Data.php?file=' + fileLink,
+								success: $.proxy(function( raw ) {
 
-							success: $.proxy(function( raw ) {
 								var divided = this.divideSequence(raw, moleculeSequenceStringArr, response);
-
 
 								$.ajax({
 									beforeSend: function(request) {
@@ -202,14 +228,13 @@
 										}
 									},this)
 								});
-							}, this)
+							},this)
 						});
 					}
 					else{
 						this.errorLoadingMessage="No molecule structure found for this gene";
 						this.loadFinish();
 					}
-
 				},this)
 			})
 			.fail($.proxy(function(d, textStatus, error) {
@@ -691,4 +716,10 @@
 		}
 
 	};
-})();
+
+
+
+
+
+
+	})();

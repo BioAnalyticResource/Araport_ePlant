@@ -116,17 +116,17 @@
 						text.textContent = value+"%";
 						this.pinUpdated = true;
 					}
-
 				},this)
 			});
 		}
+
 	};
 
 	/**
 		* Attaches the legend to the view.
 	*/
 	Eplant.BaseViews.EFPView.GeneDistributionChart.prototype.attach = function() {
-		$("#efp_container").append(this.domContainer);
+		$(this.eFPView.domContainer).append(this.domContainer);
 	};
 
 	/**

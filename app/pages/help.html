@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" class="no-js">
     <head>
@@ -87,7 +88,7 @@
                     <li>
                         <a id="help-whyArabidopsis" class="cd-faq-trigger" href="#0">Why only <i>Arabidopsis</i>?</a>
                         <div class="cd-faq-content">
-                            <p>ePlant was designed to be species agnostic. We are applying for funding to add more species.</p>
+                            <p>ePlant was designed to be species agnostic. We have received funding to add more species, coming by the end of 2018.</p>
                         </div>
                     </li>
 
@@ -146,7 +147,11 @@
                             <p>The World eFP Viewer displays natural variation in gene expression from ecotypes collected from around the world. It draws tiny plant shoots that are colored according to their expression level for a given gene, and placed according to the geographic coordinates of their source on a Google Maps image of the world.</p>
                             <p><img src="images/worldViewerScreengrab.png" class="exampleImage"></p>
                             <p>This chart displays the natural variation in gene expression of At1g10320, a Zinc finger C-x8-C-x5-C-x3-H type family protein.</p>
-                            <p>Compare natural variation data for the selected gene with historical climate data: Annual Precipitation, Historical Maximum Temperature in the Warmest Month, or Historical Minimum Temperature in the Coldest Month.</p>
+                            <p>Compare natural variation data for the selected gene with historical climate data: Annual Precipitation, Historical Maximum Temperature in the Warmest Month, or Historical Minimum Temperature in the Coldest Month. The data come from
+                            http://sdwebx.worldbank.org/climateportal/. Note that climate
+                            overlay data may not reflect the microclimate that a
+                            given Arabidopsis accession collected at a given location may have
+                            experienced</p>
                             <p><img src="images/WorldViewer-rain.png" class="exampleImage"></p>
 
                         </div>
@@ -161,7 +166,7 @@
                             <p>The Plant eFP Viewer is an electronic flurorescent pictograph that displays gene expression patterns on the tissues of a cartoon plant. Stronger colors denote a higher level of expression.</p>
                             <p><img src="images/plantEFPscreengrab.png" class="exampleImage"></p>
                             <p>This chart displays the expression pattern for At1g01040, also known as ASU1, ATDCL1, CAF, DCL1, EMB60, EMB76, SIN1, and SUS1, a gene encoding a dicer-like 1 protein. Note that it is expressed everywhere but in the mature pollen.</p>
-                            <p>This is a new implementation of the <a href="//bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi" target="_blank">Arabidopsis eFP Browser at bar.utoronto.ca</a> (Winter et al., 2007. PLOS One 2(8) e718). This version was written with Javascript and runs in your browser. No more waiting to download a new image every time you adjust a parameter. It also uses SVG images to generate anti-aliased lines that can scale up to any size. Unecessary outlines around the shapes have been removed to maximize the data/ink ratio.</p>
+                            <p>This is a new implementation of the <a href="//bar.utoronto.ca/efp/cgi-bin/efpWeb.cgi" target="_blank">Arabidopsis eFP Browser at bar.utoronto.ca</a> (Winter et al., 2007. PLOS One 2: e718). This version was written with Javascript and runs in your browser. No more waiting to download a new image every time you adjust a parameter. It also uses SVG images to generate anti-aliased lines that can scale up to any size. Unecessary outlines around the shapes have been removed to maximize the data/ink ratio.</p>
                         </div>
                     </li>
 
@@ -171,20 +176,29 @@
                             <img src="images/experiment.png" class="helpIcon"/>Experimental and Tissue Specific eFP Viewer
                         </a>
                         <div class="cd-faq-content">
-                            <p>The Experimental and Tissue Specific eFP views provide a graphical display of gene expression levels after exposure to stress, hormone, or other treatments, and in tissues not included in other views. Experimental data currently include:</p>
-                            <p><h2>Guard and Mesyphyl Cell</h2></p>
-                            <p><h2>Microgametogenesis</h2></p>
-                            <p><h2>Root</h2></p>
-                            <p><h2>Stigma and Ovaries</h2></p>
-                            <p><h2>Chemical Experiment</h2></p>
-                            <p><h2>Abiotic Stress Experiment</h2></p>
-                            <p><h2>Xylem and Cork</h2></p>
+                            <p>The Experimental and Tissue Specific eFP views provide a graphical display of gene expression levels after exposure to stress, chemical, or other treatments, and in tissues not included in other views. Experimental data currently include:</p>
+                            <p><h2>Abiotic Stress Experiments</h2></p>
+                            <p><h2>Chemical Inhibitor Experiments</h2></p>
+                            <p><h2>Guard and Mesyphyl Cells</h2></p>
                             <p><h2>Guard Cell Suspension Cell ABA Response with ROS</h2></p>
-                            <p><h2>Stem Epidermis</h2></p>
-                            <p><h2>Guard Cell and Mutant Wild Type Guard Cell</h2></p>
-                            <p><h2>Pollen Germination</h2></p>
+                            <p><h2>Guard Cells and Mutant Wild Type Guard Cells</h2></p>
                             <p><h2>Guard Cell Meristemoids</h2></p>
+                            <p><h2>Embryo Development</h2></p>
+                            <p><h2>Microgametogenesis</h2></p>
+                            <p><h2>Pollen Germination</h2></p>
+                            <p><h2>Root</h2></p>
                             <p><h2>Shoot Apical Meristem</h2></p>
+                            <p><h2>Stigma and Ovaries</h2></p>
+                            <p><h2>Stem Epidermis</h2></p>
+                            <p><h2>Xylem and Cork</h2></p>
+                            <p><h2>Botrytis cinerea Infection</h2></p>
+                            <p><h2>Elicitors Challenge (mostly bacterial)</h2></p>
+                            <p><h2>Erysiphe orontii Infection</h2></p>
+                            <p><h2>Hyaloperonospora arabidopsis Infection</h2></p>
+                            <p><h2>Myzus persicaere Challenge</h2></p>
+                            <p><h2>Phytophthora infestans Infection</h2></p>
+                            <p><h2>Pseudomonas syringae Infection</h2></p>
+
                             <p>Click on the Citations link in each view for the data source reference. We are hoping to add more views soon. Please contact us if you have data that you'd like to share.</p>
                         </div>
                     </li>
@@ -195,7 +209,11 @@
                             <img src="images/cell.png" class="helpIcon"/>Cell eFP Viewer
                         </a>
                         <div class="cd-faq-content">
-                            <p>The Subcellular eFP Viewer displays the documented and predicted subcellular localization of a gene product on a cartoon image of a cell.</p>
+                            <p>The Subcellular eFP Viewer displays the documented and predicted subcellular localization of a gene product on a cartoon image of a cell from the <a href="http://suba.plantenergy.uwa.edu.au" target = "_blank">SUBA database</a>. We apply the formula indicated in the Material and Methods section of Winter et al. 2007 (doi:
+                            10.1371/journal.pone.0000718) to generate a confidence score for 
+                            each distinct subcellular compartment or region, with 
+                            experimentally-determined localizations being weighted five times
+                            more than predicted ones.</p>
                             <p><img src="images/cellEFPscreengrab.png" class="exampleImage"></p>
                             <p>This chart shows the subcellular localization for At3g24650, which encodes the transcription factor ABI3. Nuclear localization has been documented for this TF.</p>
                         </div>                        
@@ -221,7 +239,8 @@
                             <img src="images/interaction.png" class="helpIcon"/>Protein Interactions Viewer
                         </a>
                         <div class="cd-faq-content">
-                            <p>The Protein-Protein Interactions viewer displays documented and predicted protein-protein interactions for the selected gene product. This tool was written with <a href="http://cytoscape.github.io/cytoscape.js/" target="_blank">Cytoscape.js</a>, developed at the <a href="http://thedonnellycentre.utoronto.ca/" target="_blank">Donnolly Centre</a> at the University of Toronto.</p>
+                            <p>The Protein-Protein Interactions viewer displays documented and predicted protein-protein interactions for the selected gene product. This tool was written with <a href="http://cytoscape.github.io/cytoscape.js/" target="_blank">Cytoscape.js</a>, developed at the <a href="http://thedonnellycentre.utoronto.ca/" target="_blank">Donnolly Centre</a> at the University of Toronto. Experimentally-determined interactions are shown with green edges - mouse over the edge to see the publication associated with the experiment. The predicted interactions (interologs) were generated by Drs Matt Geisler and Jane Geisler-
+                            Lee at the Southern Illinois University (Geisler-Lee et al., 2007) using the interolog method.The higher the confidence score, the more times a given interaction has been seen in orthologs of the Arabidopsis genes product pairs, and the greater is the number of different methods used to determine that interaction.</p>
                             <p><img src="images/interactionsScreengrab.png" class="exampleImage"></p>
                             <p>This is a chart of documented and predicted interaction partners for At1g01040. You can click on any of the gene products (nodes) to open an information popup. Click the 'Get Data' button to add the selected gene product to the gene/gene product panel.</p>
                             <p><img src="images/getDataButton.png" class="exampleImage"></p>
@@ -234,9 +253,9 @@
                             <img src="images/molecule.png" class="helpIcon"/>Molecular Structure Viewer
                         </a>
                         <div class="cd-faq-content">
-                            <p>This view displays a 3D molecular structure of the selected gene's protein product from the Protein Data Bank, PDB, or predicted by Phyre. Pfam and CDD domains can be highlighted by selecting whichever domain you're interested in from a list. The amino acid sequence is displayed along the bottom of the screen. Hover over the sequence (or click on a base) to highlight that residue on the molecule.</p> 
+                            <p>This view displays a 3D molecular structure of the selected gene's protein product from the Protein Data Bank - the PDB, or predicted by Phyre2 (prediction information is found in the Citation and Experiment Information section - the smaller the HMMPred e-value, the better). Pfam and CDD domains can be highlighted by selecting whichever domain you're interested in from a list. The amino acid sequence is displayed along the bottom of the screen. Hover over the sequence (or click on a base) to highlight that residue on the molecule.</p> 
                             <p><img src="images/molecularViewerScreengrab.png" class="exampleImage"></p>
-                            <p>This chart shows a 3D structure for an unknown protein. A CDD Globin_like superfamily is highlighted in light green. Clicking on the residues in the sequence along the bottom will highlight their position on the molecule. The first ten residues of the sequence are highlighted in darker green and their positions can be seen on the molecule with the amino acid side chains coming off them.</p>
+                            <p>This image shows a partial predicted 3D structure for ABI3 (the Citation and Experiment Information shows that is was predicted using the PDB template 1WID with an HMMPred e-value of 1e-25). A CDD DNA-binding domain is highlighted in blue on the structure. The pins denote non-synonymous polymorphisms from the <a href="http://1001proteomes.masc-proteomics.org/">1001 Proteomes</a> website - the larger and redder the pin, the more often that polymorphism is found to occur in genomes sequenced by the 1001 Arabidopsis Genomes initiative. Clicking on the residues in the sequence along the bottom will highlight their position on the structure. A non-synonymous THR to ASN change is highlighted in green, near to the DNA binding site.</p>
                         </div>                        
                     </li>
 
@@ -246,7 +265,7 @@
                             <img src="images/sequence.png" class="helpIcon"/>Sequence Browser
                         </a>
                         <div class="cd-faq-content">
-                            <p>The Sequence Browser is a full featured genome browser that allows you to explore genes of interest from the individual nucleotide all the way up to their place in the genome. This is an implementation of JBrowse with data fed from <a href="https://www.araport.org/">Araport.org</a>.</p>
+                            <p>The Sequence Browser is a full featured genome browser that allows you to explore genes of interest from the individual nucleotide all the way up to their place in the genome. This is an implementation of JBrowse with data fed from <a href="https://www.araport.org/" target = "_blank">Araport.org</a>.</p>
                             <p><img src="images/jbrowseScreengrab.png" class="exampleImage"></p>
                             <p>Click the tab on the side of the navigation bar to slide it out of the way.</p>
                             <p><img src="images/navigationPanelSliderButton.png" class="exampleImage"></p>
@@ -429,9 +448,9 @@
         </section>
 
         <!-- Load jquery and Javascript Programs -->
-        <link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
+        <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet"></link>
         <script src="js/jquery-2.1.1.js"></script>
-        <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>        
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>        
         <script src="js/jquery.mobile.custom.min.js"></script>
         <script src="js/main.js"></script>
         <script src="js/backToTop.js"></script>

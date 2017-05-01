@@ -91,7 +91,7 @@
 			/* Create GoogleMaps object */
 			
 			var mapTypeIds = ['roadmap', 'satellite', 'hybrid', 'terrain', 'OSM'];
-		
+			
 			Eplant.Views.WorldView.map = new google.maps.Map(Eplant.Views.WorldView.domContainer, {
 				center: new google.maps.LatLng(25, 0),
 				zoom: 2,
@@ -105,7 +105,7 @@
 				},
 				zoomControl: false
 			});
-	
+			
 			// Store map as local variable
 			var map = Eplant.Views.WorldView.map;
 			
@@ -965,7 +965,6 @@
 
 				/* Override for Araport */
 				this.webService = Eplant.ServiceUrl + 'worldefp.cgi';
-	
 				
 				/* Get marker shape */
 				this.markerIcon = response.marker;
@@ -1208,7 +1207,7 @@
 						eFPView: this
 					};
 					/* Query */
-	 				$.ajax({
+					$.ajax({
 						beforeSend: function(request) {
 							request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 						},
@@ -1216,6 +1215,7 @@
 						type: "get",
 						url: this.webService + "?id=" + this.geneticElement.identifier + "&samples=" + JSON.stringify(sampleNames), 
 						success: $.proxy(function(response) {
+
 							var haveNulls = false;
 							var numNulls = 0;
 							for (var m = 0; m < response.length; m++) {
@@ -1260,6 +1260,7 @@
 						}, wrapper)
 					});
 				},this,null,this.geneticElement.identifier+"_Loading");
+				
 			}, this));
 		};
 		

@@ -54,7 +54,7 @@
 		this.domContainer = null
 
 		this.legend = new Eplant.Views.HeatMapView.Legend(this);
-		this.legend.update();
+		//this.legend.update();
 	};
 	ZUI.Util.inheritClass(Eplant.View, Eplant.Views.HeatMapView);		// Inherit parent prototype
 	Eplant.Views.HeatMapView.viewName = "HeatMapView";
@@ -919,11 +919,11 @@
 			view:this
 		};
 		$.ajax({
-			type: "GET",
 			beforeSend: function(request) {
 				request.setRequestHeader('Authorization', 'Bearer ' + Agave.token.accessToken);
 			},
 			url: Eplant.ServiceUrl + "citation.cgi?view=" + ZUI.activeView.name,
+			type: "GET",
 			dataType: "json"
 			}).done($.proxy(function(response) {
 

@@ -70,7 +70,10 @@
 
 				break;
 				case "globalAbsolute" :
-				if(/*Eplant.experimentColorMode==="all"&&this.eFPView.magnification===35*/this.eFPView.viewName!="CellView"){
+				if(!this.eFPView.geneticElement.species.max){
+					max = this.eFPView.max;
+				}
+				else if(/*Eplant.experimentColorMode==="all"&&this.eFPView.magnification===35*/this.eFPView.viewName!="CellView"){
 					max= this.eFPView.geneticElement.species.max;//experimentViewMax;
 				}
 				else{
@@ -149,7 +152,10 @@
 				break;
 				case "globalAbsolute" :
 
-				if(/*Eplant.experimentColorMode==="all"&&this.eFPView.magnification===35*/this.eFPView.viewName!="CellView"){
+				if(!this.eFPView.geneticElement.species.extremum){
+					extremum = this.eFPView.extremum;
+				}
+				else if(/*Eplant.experimentColorMode==="all"&&this.eFPView.magnification===35*/this.eFPView.viewName!="CellView"){
 					extremum= this.eFPView.geneticElement.species.extremum;//.experimentViewExtremum;
 				}
 				else{
@@ -364,7 +370,7 @@
 		* Attaches the legend to the view.
 	*/
 	Eplant.BaseViews.EFPView.Legend.prototype.attach = function() {
-		$("#efp_container").append(this.domContainer);
+		$(this.eFPView.domContainer).append(this.domContainer);
 	};
 
 	/**

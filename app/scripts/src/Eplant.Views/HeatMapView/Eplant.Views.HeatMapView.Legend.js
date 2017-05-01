@@ -67,7 +67,11 @@
 				break;
 				case "globalAbsolute" :
 				modeText = "Global Max";
-				max= Eplant.activeSpecies.max;
+				if(!Eplant.activeSpecies.max){
+					max = 10;
+				}else{
+					max= Eplant.activeSpecies.max;
+				}
 				break;
 				case "customAbsolute" :
 				modeText = "Custom Max";
@@ -122,7 +126,12 @@
 				modeText = "Local Extrema";
 				break;
 				case "globalAbsolute" :
-				extremum= Eplant.activeSpecies.extremum;
+				if(!Eplant.activeSpecies.extremum){
+					extremum = 10;
+				}else{
+					
+					extremum= Eplant.activeSpecies.extremum;
+				}
 				modeText = "Global Extrema";
 				break;
 				case "customAbsolute" :
