@@ -457,10 +457,12 @@
 					if(citation.notes) content+="<br><br>" + citation.notes;
 					if(citation.URL) content+="<br><br>" + citation.URL;
 					if(content.length>0) content = content.substring(8);
-					content='<h2>Citation information for this view</h2><br>'+content;
-					if(Eplant.activeView.infoHtml){
-						content +="<br><br><h2>Experiment information for this view</h2><br>"+Eplant.activeView.infoHtml;
-					}
+					content='<h2>Citation and Experiment Information for this View</h2><br>'+content;
+					/*if(Eplant.activeView.infoHtml){
+						//content +="<br><br><h2>Experiment information for this view</h2><br>"+Eplant.activeView.infoHtml;
+						content +="<br><br>"+Eplant.activeView.infoHtml;
+					}*/
+					content+="{INFOHTML}";
 					//content += "<br><br>If you find this tool useful, please cite: ePlant <i>" + species.scientificName + "</i> " + citation.view + "  at bar.utoronto.ca by "+Eplant.Authours+" "+Eplant.Year+".";
 					content += "<br><br>This image was generated with the " + citation.view + " at bar.utoronto.ca/eplant by "+Eplant.AuthoursW+" "+Eplant.Year+".";
 					Eplant.citations[species.scientificName][citation.view] = content;
@@ -526,12 +528,25 @@
 			}, obj)).fail($.proxy(function(response) {
 			obj.dialog.content('No citation information available for this view.');
 		}, obj));*/
+		var content = "";
 		if(Eplant.activeView.citation){
-			dialog.content(Eplant.activeView.citation);	
+			
+			if(Eplant.activeView.infoHtml){
+				content = Eplant.activeView.citation.replace("{INFOHTML}","<br><br>"+Eplant.activeView.infoHtml);
+			}else{
+				content = Eplant.activeView.citation.replace("{INFOHTML}","");
+			}
 			
 		}else{
-			dialog.content(Eplant.citations[Eplant.activeSpecies.scientificName][Eplant.activeView.name]);	
+			var content = "";
+			if(Eplant.activeView.infoHtml){
+				content = Eplant.citations[Eplant.activeSpecies.scientificName][Eplant.activeView.name].replace("{INFOHTML}","<br><br>"+Eplant.activeView.infoHtml);
+			}else{
+				content = Eplant.citations[Eplant.activeSpecies.scientificName][Eplant.activeView.name].replace("{INFOHTML}","");
+			}
+				
 		}
+		dialog.content(content);
 	};
 	Eplant.expressionAnglerClick = function() {
 		DialogManager.artDialogUrl('app/ExpressionAngler/index.html?data=' + Agave.token.accessToken, {

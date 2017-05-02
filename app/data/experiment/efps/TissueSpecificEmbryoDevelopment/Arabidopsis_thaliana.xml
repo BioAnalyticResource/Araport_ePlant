@@ -4,12 +4,12 @@
 	<view name="all" class="" db="atgenexp_plus" img="TissueSpecific-EmbryoDevelopment-2015-01-12.svg">
 		<webservice>plantefp.cgi?datasource=atgenexp_plus&amp;</webservice>
 		<info>
-			<p>Plant material from embryos of wild type Col-0 Arabidopsis thaliana plants of was isolated by laser capture microdissection</p>
-			<p>Plants grown under 16/8 hour light/dark conditions</p>
-			<p>RNA was amplified and hybridized to the ATH1 GeneChip. Note: 3’ bias! </p>
-			<p>All measurements were taken in triplicates - the average is shown. Results can be highly variable. Standard deviation filtering advisable!</p>
-			<p>The data were normalized by GCOS normalization, TGT 100</p>
-			<p>Vectorized image drawn by J.Waese, using Casson et al. (2005) and http://www.mun.ca/biology/desmid/brian/BIOL3530/DB_06/fig6_b1b.jpg as reference.</p>
+			<li>Plant material from embryos of wild type Col-0 Arabidopsis thaliana plants of was isolated by laser capture microdissection</li>
+			<li>Plants grown under 16/8 hour light/dark conditions</li>
+			<li>RNA was amplified and hybridized to the ATH1 GeneChip. Note: 3’ bias! </li>
+			<li>All measurements were taken in triplicates - the average is shown. Results can be highly variable. Standard deviation filtering advisable!</li>
+			<li>The data were normalized by GCOS normalization, TGT 100</li>
+			<li>Vectorized image drawn by J.Waese, using Casson et al. (2005) and http://www.mun.ca/biology/desmid/brian/BIOL3530/DB_06/fig6_b1b.jpg as reference.</li>
 		</info>
 		<group name="CTRL_7">
 			<control sample="ATGE_CTRL_7"/> 

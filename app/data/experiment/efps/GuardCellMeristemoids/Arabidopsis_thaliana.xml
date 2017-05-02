@@ -3,16 +3,16 @@
 <specimen name="Arabidopsis">
 <view name="all" db="guard_cell" img="GuardCell-xxxx-2015-01-13.svg">
 	<info>
-		<p>Material from 5 dy old <i>Arabidopsis thaliana</i> Columbia-0, <i>scrm-D, scrm-D mute,</i> and <i>spch</i> whole seedlings was collected at 1 pm.</p>
-		<p><i>scrm-D</i> is a gain of function mutation</p>
-		<p>The epidermis of these plants is a s follows:</p>
+		<li>Material from 5 dy old <i>Arabidopsis thaliana</i> Columbia-0, <i>scrm-D, scrm-D mute,</i> and <i>spch</i> whole seedlings was collected at 1 pm.</li>
+		<li><i>scrm-D</i> is a gain of function mutation</li>
+		<li>The epidermis of these plants is a s follows:</li>
 		<li><i>scrm-D</i>: only guard cells </li>
 		<li><i>scrm-D mute</i>: only merstemoids</li>
 		<li><i>spch</i>: only pavement cells</li>
-		<p>Plants were grown on 1x MS plates at 21°C under 16/8 hour light/dark conditions.</p>
-		<p>Measurements were taken in triplicates - the average of which is shown.</p>
-		<p>RNA was isolated and hybridized to the ATH1 GeneGhip. The data were normalized by GCOS normalization, TGT 100</p>
-		<p>Results from Pilitteri ~ Torii (2011), The Plant Cell. DOI: 10.1105/tpc.111.088583</p>
+		<li>Plants were grown on 1x MS plates at 21°C under 16/8 hour light/dark conditions.</li>
+		<li>Measurements were taken in triplicates - the average of which is shown.</li>
+		<li>RNA was isolated and hybridized to the ATH1 GeneGhip. The data were normalized by GCOS normalization, TGT 100</li>
+		<li>Results from Pilitteri ~ Torii (2011), The Plant Cell. DOI: 10.1105/tpc.111.088583</li>
 	</info>
 
 	<group name="GSM738872_C2;GSM738873_C3;GSM738874_C4">

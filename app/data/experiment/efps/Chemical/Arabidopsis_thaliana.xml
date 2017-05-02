@@ -4,13 +4,13 @@
 <view name="all" class="" db="atgenexp_hormone">
 	<webservice>plantefp.cgi?datasource=atgenexp_hormone&amp;</webservice>
 <info>
-	<p>Plant material from 7 day old wild-type Arabidopsis thaliana seedlings of Columbia-0 ecotype was analyzed</p>
-	<p>Plants grown in liquid MS media under continuous light conditions at 23°C</p>
-	<p>All measurements were taken in duplicates - the average of which is shown</p>
-	<p>RNA was isolated and hybridized to the ATH1 GeneChip</p>
-	<p>The data were normalized by GCOS normalization TGT 100</p>
-	<p>This study is part of the AtGenExpress project, funded by RIKEN</p>
-	<p>Results provided by the Shimada Lab</p>
+	<li>Plant material from 7 day old wild-type Arabidopsis thaliana seedlings of Columbia-0 ecotype was analyzed</li>
+	<li>Plants grown in liquid MS media under continuous light conditions at 23°C</li>
+	<li>All measurements were taken in duplicates - the average of which is shown</li>
+	<li>RNA was isolated and hybridized to the ATH1 GeneChip</li>
+	<li>The data were normalized by GCOS normalization TGT 100</li>
+	<li>This study is part of the AtGenExpress project, funded by RIKEN</li>
+	<li>Results provided by the Shimada Lab</li>
 </info>
 
 <tissue id="Control_at_12_Hours" name="Control at 12 Hours" colorKey="#88FF11">

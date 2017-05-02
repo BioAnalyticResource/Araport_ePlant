@@ -4,14 +4,14 @@
 	<webservice>plantefp.cgi?datasource=guard_cell&amp;</webservice>
 	<view name="all" db="guard_cell" img="GuardCell-MutantAndWildTypeGuardCellABAResponse-2015-01-13.svg">
 		<info>
-			<p>Plant material from the leaves of 5 week old <span style="font-style:italic">Arabidopsis thaliana </span> plants of the indicated genotypes. <span style="font-style:italic">gpa1 </span> plants are insertionally mutated in the sole canonical heterotrimeric G protein α subunit gene, <span style="font-style:italic">GPA1 </span>, while <span style="font-style:italic">agb1 </span>plants are insertionally mutated in the sole canonical heterotrimeric G protein β subunit gene, <span style="font-style:italic">AGB1</span>.</p>
-			<p>Whole leaf RNA and RNA from epidermal peels in which guard cells were the only living cell type remaining after cellulase treatment used for analyses.</p>
-			<p>50 µm ABA or ethanol control applied for 3 hours.</p>
-			<p>Leaves were sampled when lights came on.</p>
-			<p>Plants grown in growth room under 8/16 hour light/dark conditions at 20°C/18°C</p>
-			<p>Measurements were taken in triplicates - the average of which is shown.</p>
-			<p>RNA was isolated and hybridized to the ATH1 GeneChip. The data were normalized by GCOS normalization, TGT 100.</p>
-			<p>Results from Pandey et al., 2010, Molecular Systems Biology 6:372</p>
+			<li>Plant material from the leaves of 5 week old <span style="font-style:italic">Arabidopsis thaliana </span> plants of the indicated genotypes. <span style="font-style:italic">gpa1 </span> plants are insertionally mutated in the sole canonical heterotrimeric G protein α subunit gene, <span style="font-style:italic">GPA1 </span>, while <span style="font-style:italic">agb1 </span>plants are insertionally mutated in the sole canonical heterotrimeric G protein β subunit gene, <span style="font-style:italic">AGB1</span>.</li>
+			<li>Whole leaf RNA and RNA from epidermal peels in which guard cells were the only living cell type remaining after cellulase treatment used for analyses.</li>
+			<li>50 µm ABA or ethanol control applied for 3 hours.</li>
+			<li>Leaves were sampled when lights came on.</li>
+			<li>Plants grown in growth room under 8/16 hour light/dark conditions at 20°C/18°C</li>
+			<li>Measurements were taken in triplicates - the average of which is shown.</li>
+			<li>RNA was isolated and hybridized to the ATH1 GeneChip. The data were normalized by GCOS normalization, TGT 100.</li>
+			<li>Results from Pandey et al., 2010, Molecular Systems Biology 6:372</li>
 		</info>
 		<group name="Assmann_GC_Mutants_ABA_WT">
 			<control sample="GSM486892"/> 

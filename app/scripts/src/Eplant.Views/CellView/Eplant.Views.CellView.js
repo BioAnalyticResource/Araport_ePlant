@@ -86,9 +86,7 @@
 	Eplant.Views.CellView.prototype.generateCitation = function() {
 		this.citation='<h2>Citation information for this view</h2><br>';
 			this.citation += "The data come from Tanz SK, Castleden I, Hooper CM, Vacher M, Small I; Millar, AH (2013) SUBA3: a database for integrating experimentation and prediction to define the SUBcellular location of proteins in Arabidopsis. Nucleic Acids Res. 41: D1185-91<br><br>The SUBA3 database contains information on the computationally predicted and experimentally documented subcellular localization of many Arabidopsis proteins. We apply the formula indicated in the Material and Methods section of Winter et al. 2007 (doi: 10.1371/journal.pone.0000718) to generate a confidence score for each distinct subcellular compartment or region, with experimentally-determined localizations being weighted five times more than predicted ones. The higher the confidence score for a given subcellular compartment, the more intense the red colour in the Cell eFP Browser output. <br><br> See further details at SUBA: <a href='http://suba.plantenergy.uwa.edu.au/flatfile.php?id="+this.geneticElement.identifier+"'>http://suba.plantenergy.uwa.edu.au/flatfile.php?id="+this.geneticElement.identifier+"</a>";
-						if(this.infoHtml){
-						content +="<br><br><h2>Experiment information for this view</h2><br>"+this.infoHtml;
-					}
+			this.citation+="{INFOHTML}";
 			this.citation += "<br><br>This image was generated with the " + Eplant.Views.CellView.displayName + " at bar.utoronto.ca/eplant by "+Eplant.AuthoursW+" "+Eplant.Year+".";
 
 	};

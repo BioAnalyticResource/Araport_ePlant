@@ -168,9 +168,7 @@
 			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
 			
 		}
-					if(this.infoHtml){
-						content +="<br><br><h2>Experiment information for this view</h2><br>"+this.infoHtml;
-					}
+		this.citation+="{INFOHTML}";
 		this.citation += "<br><br>This image was generated with the " + Eplant.Views.MoleculeView.displayName + " at bar.utoronto.ca/eplant by "+Eplant.AuthoursW+" "+Eplant.Year+".";
 		
 	};
