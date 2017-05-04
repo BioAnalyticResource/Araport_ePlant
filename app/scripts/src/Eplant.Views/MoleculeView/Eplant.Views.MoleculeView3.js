@@ -156,14 +156,11 @@
 	
 	Eplant.Views.MoleculeView.prototype.generateCitation = function(template,eValue,pdbid) {
 		
-		this.citation='<h2>Citation information for this view</h2><br>';
+		this.citation='<h2>Citation and Experiment Information for this View</h2><br>';
 		if(template&&eValue){
 			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). The PDB template used to model this structure was '+template+' and the HMMPred e-value was '+eValue+'. <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
-					
-				
-			
 		}else if(pdbid){
-			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). The 3D molecule data come from the PDB, doi: 10.2210/pdb'+pdbid+'/pdb”. <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
+			this.citation += 'The 3D molecule data come from the PDB, <a href="http://www.rcsb.org/pdb/explore/explore.do?structureId='+pdbid+'" target="_blank">doi: 10.2210/pdb'+pdbid+'/pdb</a>. <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
 		}else{
 			this.citation += 'The 3D molecule data come from Phyre2: Kelley LA et al. Nature Protocols 10, 845-858 (2015). <br><br>SNP data come from Joshi HJ, Christiansen KM, Fitz J, Cao J, Lipzen A, Martin J, Smith-Moritz AM, Pennacchio L, Schackwitz WS, Weigel D, Heazlewood JL (2012) 1001 Proteomes: A functional proteomics portal for the analysis of Arabidopsis thaliana accessions. Bioinformatics 28: 1303-1306. doi: 10.1093/bioinformatics/bts133.<br><br>Pfam domain data come from Finn et al., (2014). CDD feature hits come from Marchler-Bauer et al., (2015).<br><br> This viewer was built with JSmol.';
 			
@@ -185,7 +182,8 @@
 				success: $.proxy(function(response) {
 					var moleculeSequenceStringArr = [];
 					if (response.link != "") {
-						
+
+						var predicted = (response.predicted==="true")?true:false;
 						var regexp = /[^\/]*(?=[.][a-zA-Z]+$)/g;
 						var matches_array = response.link.match(regexp);
 						this.generateCitation(response.template,response['HMMpred_e-value'],matches_array[0]);

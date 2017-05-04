@@ -237,6 +237,8 @@
 		DNA_sequence.style.transform = "scale(1.15,1.15)";\
 		RNA_sequence.style.opacity = "1";\
 		RNA_sequence.style.transform = "scale(1.15,1.15)";\
+		environment.style.opacity = "1";\
+	    environment.style.transform = "scale(1.15,1.15)";\
 		}\
 		function plant_eFP() {\
 		Plant_eFP_button.style.stroke = "#99CC00";\
@@ -244,6 +246,8 @@
 		localization.style.transform = "scale(1.15,1.15)";\
 		RNA_sequence.style.opacity = "1";\
 		RNA_sequence.style.transform = "scale(1.15,1.15)";\
+		phenotype.style.opacity = "1";\
+		phenotype.style.transform = "scale(1.15,1.15)";\
 		}\
 		function experiment_eFP() {\
 		Experiment_eFP_button.style.stroke = "#99CC00";\
@@ -251,6 +255,8 @@
 		RNA_sequence.style.transform = "scale(1.15,1.15)";\
 		localization.style.opacity = "1";\
 		localization.style.transform = "scale(1.15,1.15)";\
+		phenotype.style.opacity = "1";\
+		phenotype.style.transform = "scale(1.15,1.15)";\
 		}\
 		function cell_eFP() {\
 		Cell_eFP_button.style.stroke = "#99CC00";\

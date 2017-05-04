@@ -936,7 +936,7 @@
 			if(response.notes) content+="<br><br>" + response.notes;
 			if(response.URL) content+="<br><br>" + response.URL;
 
-			content='<p style="font-size:24px">Citation information for this view</p><br>'+content;
+			content='<p style="font-size:24px">Citation and Experiment Information for this View</p><br>'+content;
 			obj.dialog.content(content);
 
 		}, obj));

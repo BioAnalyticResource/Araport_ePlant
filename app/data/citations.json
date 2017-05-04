@@ -5,7 +5,7 @@
 		"URL": ""
 	}, {
 		"view": "Publication Viewer",
-		"source": "Data for this view come from the <i>publications_by_locus</i> and <i>generifs_by_locus</i> webservices at <a href='https://www.araport.org/api-explorer'>Araport</a>.",
+		"source": "Data for this view come from the <i>publications_by_locus</i> and <i>generifs_by_locus</i> webservices at <a target='_blank' href='https://www.araport.org/api-explorer'>Araport</a>.",
 		"notes": "",
 		"URL": ""
 	}, {

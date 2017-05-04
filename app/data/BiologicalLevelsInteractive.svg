@@ -865,6 +865,8 @@
     RNA_sequence.style.transform = "scale(1.15,1.15)";
     localization.style.opacity = "1";
     localization.style.transform = "scale(1.15,1.15)";
+    phenotype.style.opacity = "1";
+    phenotype.style.transform = "scale(1.15,1.15)";
   }
 
   // SHOW CELL EFP LEVELS ONLY
