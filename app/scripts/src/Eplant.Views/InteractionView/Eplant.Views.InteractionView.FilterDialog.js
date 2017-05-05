@@ -3,7 +3,7 @@
 
 	/**
 	 * Eplant.Views.InteractionView.FilterDialog class
-	 * Coded by Hans Yu & Ian Shi
+	 * Coded by Ian Shi
 	 * UI designed by Jamie Waese
 	 *
 	 * Dialog for user to choose filter settings for an interaction view.
@@ -11,7 +11,6 @@
 	 * @constructor
 	 * @param {Eplant.Views.InteractionView} interactionView The InteractionView that owns dialog.
 	 */
-
 	'use strict';
 	Eplant.Views.InteractionView.FilterDialog = function (interactionView) {
 		/**
@@ -19,11 +18,6 @@
 		 * @type {Eplant.Views.InteractionView}
 		 */
 		this.interactionView = interactionView;
-		/**
-		 * Filter methods
-		 * @type {Eplant.Views.InteractionView.Filter}
-		 */
-		this.filter = new Eplant.Views.InteractionView.Filter(interactionView);
 		/**
 		 * The status of interaction filters
 		 * @type {List}
@@ -222,7 +216,7 @@
 	 * @param  {string} description The description appearing as DOM text
 	 * @return {HTMLElement} The container of all created elements
 	 */
-	Eplant.Views.InteractionView.FilterDialog.prototype.createPDISpinner = function (id, 
+	Eplant.Views.InteractionView.FilterDialog.prototype.createPDISpinner = function (id,
 		description) {
 		// Create DOM container
 		var container = document.createElement('div');
@@ -242,20 +236,20 @@
 		$(spinner).attr('value', '1e-4');
 		$(spinner).width(60);
 		$.widget("ui.pdispinner", $.ui.spinner, {
-		    options: {
-		        min: 2,
-		        max: 12
-		    },
-		    _parse: function(value) {
-		        if (typeof value === "string") {
-		            return parseInt(value.charAt(3));
-		        }
-		        return value;
-		    },
-		    _format: function(value2) {
-		        return "1e-" + value2;
-		    },
-		    step: 1,
+			options: {
+				min: 2,
+				max: 12
+			},
+			_parse: function(value) {
+				if (typeof value === "string") {
+					return parseInt(value.charAt(3));
+				}
+				return value
+			},
+			_format: function(value2) {
+				return "1e-" + value2;
+			},
+			step: 1,
 		});
 		$(spinner).pdispinner();
 		// Construct DOM structure
@@ -354,7 +348,6 @@
 			var pppiCorr = this.PPPISelector + this.corrSelector + this.PPPICorrValue + ']';
 			var pppiConf = this.PPPISelector + this.interConfSelector + this.PPPIConfValue + ']';
 			var ppdiConf = this.PPDISelector + this.fimoConfSelector + this.PPDIConfValue + ']';
-			console.log(ppdiConf);
 			// Apply filters
 			this.filterStatus[0] = this.applyFilter(this.domEPPICheckbox, 0, this.EPPISelector);
 			this.filterStatus[1] = this.applyFilter(this.domEPPICorrCheckbox, 1, eppiCorr);
@@ -365,10 +358,10 @@
 			this.filterStatus[6] = this.applyFilter(this.domPPDICheckbox, 6, this.PPDISelector);
 			this.filterStatus[7] = this.applyFilter(this.domPPDIConfCheckbox, 7, ppdiConf);
 			// Hide orphaned nodes
-			this.filter.cleanNodes();
+			this.cleanNodes();
 			// Hide parent nodes
-			this.filter.cleanCompoundDNA();
-			this.filter.cleanCompoundProtein();
+			this.cleanCompoundNode('COMPOUND_DNA');
+			this.cleanCompoundNode('COMPOUND_PROTEIN');
 
 			// Check filter status
 			var filterActive = this.filterStatus.indexOf(true) !== -1;
@@ -388,8 +381,7 @@
 
 		var dialog = window.top.art.dialog(options);
 
-		// TODO move to constructor
-		// Change cancel button class
+		// Change cancel button class to make button grey
 		$('.aui_buttons:eq(0) button:eq(1)').addClass('aui_state_highlight_grey');
 		$.extend(true, this, dialog);
 	};
@@ -428,7 +420,6 @@
 	 * @returns {void}
 	 */
 	Eplant.Views.InteractionView.FilterDialog.prototype.attachDataFilterLabel = function () {
-		// Attach label
 		$('#Cytoscape_container').append(this.filterLabelContainer);
 	};
 
@@ -437,7 +428,6 @@
 	 * @returns {void}
 	 */
 	Eplant.Views.InteractionView.FilterDialog.prototype.detachDataFilterLabel = function () {
-		// Detach label
 		$(this.filterLabelContainer).detach();
 	};
 
@@ -446,9 +436,7 @@
 	 * @returns {void}
 	 */
 	Eplant.Views.InteractionView.FilterDialog.prototype.removeDataFilterLabel = function () {
-		// Remove label
 		$('#Data-filtering-label').remove();
-		// Set visibility status
 		this.filterLabelVisible = false;
 	};
 
@@ -513,7 +501,7 @@
 		// Show or hide edges based on checkbox status
 		if (checkboxStatus) {
 			// Generate collection of targetted edges
-			var edges = this.filter.filterEdges(selector);
+			var edges = this.interactionView.cy.edges(selector);
 			edges.hide();
 		}
 
@@ -525,7 +513,6 @@
 	 * @returns {void}
 	 */
 	Eplant.Views.InteractionView.FilterDialog.prototype.hide = function () {
-		// Hides dialog
 		$(this.domContainer).dialog('close');
 	};
 
@@ -534,7 +521,39 @@
 	 * @returns {void}
 	 */
 	Eplant.Views.InteractionView.FilterDialog.prototype.remove = function () {
-		// Hide dialog
 		$(this.domContainer).remove();
+	};
+
+	/**
+	 * Cleans interaction view of specified compound node if no nodes contained are visible
+	 * @param {String} id Selector for compound node
+	 * @returns {void}
+	 */
+	Eplant.Views.InteractionView.FilterDialog.prototype.cleanCompoundNode = function (id) {
+		if (this.interactionView.cy.nodes('[parent = "' + id + '"]:visible').length === 0) {
+			this.interactionView.cy.nodes('#' + id).hide();
+		}
+	};
+
+	/**
+	 * Clears interaction view of nodes without associated edges
+	 * @returns {void}
+	 */
+	Eplant.Views.InteractionView.FilterDialog.prototype.cleanNodes = function () {
+		// Get all nodes in interaction view
+		var nodes = this.interactionView.cy.nodes();
+		for (var n = 0; n < nodes.length; n = n + 1) {
+			var node = nodes[n];
+			var type = node.data('id').substring(9);
+
+			// Remove nodes with no connecting interactions
+			var isOrphaned = node.connectedEdges(':visible').length === 0;
+
+			if (type === 'DNA_NODE' && isOrphaned) {
+				node.hide();
+			} else if (type === 'PROTEIN_NODE' && isOrphaned) {
+				node._private.parent.hide();
+			}
+		}
 	};
 }());
