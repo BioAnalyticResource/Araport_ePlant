@@ -156,7 +156,8 @@
 		//-------end
 		
 		//try to get the agi (gene id) from its file name, will happen when running at eplant (bar.utoronto.ca)
-		var agi = load.substring( load.lastIndexOf('_')+1, load.lastIndexOf('.'));//format Phyre2_AT1G01200.1.pdb
+		//var agi = load.substring( load.lastIndexOf('_')+1, load.lastIndexOf('.'));//format Phyre2_AT1G01200.1.pdb
+		var agi = this.info.identifier;//format Phyre2_AT1G01200.1.pdb
 		if(agi)
 		this.mySequence.agi = agi;
 		

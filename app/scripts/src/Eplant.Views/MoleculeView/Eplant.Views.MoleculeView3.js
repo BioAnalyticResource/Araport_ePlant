@@ -190,8 +190,9 @@
 						this.moleculeModelRawText = JSON.stringify(response);
 						var fileLink = "";
 						fileLink = response.link.match("Phyre2_AT.+pdb");
-						if (fileLink == "") {
-							fileLink = response.link.match("....\.pdb");
+						// Araport
+						if (fileLink == null ) {
+							fileLink = response.link.match("....\.pdb$");
 						}
 						$.ajax({
 							beforeSend: function(request) {
