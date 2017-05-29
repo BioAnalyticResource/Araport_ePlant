@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE specimen SYSTEM "//bar.utoronto.ca/efp/cgi-bin/data/efp_config.dtd">
 <specimen name="Arabidopsis">
-	<webservice>//bar.utoronto.ca/eplant/cgi-bin/plantefp.cgi?datasource=atgenexp_stress&amp;</webservice>
+	<webservice>plantefp.cgi?datasource=atgenexp_stress&amp;</webservice>
 	<info>
 		<li>Plant material from 18 day old wild-type Arabidopsis thaliana plants of Columbia-0 ecotype was analyzed</li>
 		<li>The seeds were sown on rafts in Magenta boxes containing MS-Agar-media. After 2 days in the cold room (4°C, dark), the boxes were transferred to a long day chamber.  At day 11, the rafts were transferred in Magenta boxes containing MS-liquid-media.</li>
