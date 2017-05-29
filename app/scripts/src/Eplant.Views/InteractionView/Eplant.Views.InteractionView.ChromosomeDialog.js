@@ -26,8 +26,8 @@
 		options.left = this.x;
 		options.opacity = 0.6;
 		options.window = 'top'; 
-		options.fixed= true; 
-		options.drag= false;
+		options.fixed= false; 
+		options.drag= true;
 		options.resize= true;
 		options.padding= '10px';
 		options.close= $.proxy(function() {

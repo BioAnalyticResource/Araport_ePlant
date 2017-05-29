@@ -17,7 +17,12 @@
 		this.loadFlags = interactionView.loadFlags;
 		this.cb = cb;
 		if (!this.loadFlags.empty) {
-			this.positionProtein();
+			if (this.cy.$('[id $= "PROTEIN_NODE"]').length > 0) {
+				this.positionProtein();
+			} else {
+				this.cb();
+			}
+			
 			if (this.loadFlags.existsPDI) {
 				//this.positionDNA();
 				this.positionChr();
