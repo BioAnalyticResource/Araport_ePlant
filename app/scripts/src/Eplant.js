@@ -14,7 +14,7 @@
 	Eplant.ServiceUrl = 'https://api.araport.org/community/v0.3/asher-live/eplant_service_v0.6/access/'; // Base services url
 	ExpressionAnglerUrl = 'https://api.araport.org/community/v0.3/asher-live/expression_angler_service_v0.3/access/'; // Expression Angler URL
 
-	Eplant.Year = "2016";
+	Eplant.Year = "2017";
 	Eplant.Authours = "Waese, Fan, Yu, Pasha & Provart";
 	Eplant.AuthoursW = "Waese et al.";
 	/* Attributes */

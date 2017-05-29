@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <!DOCTYPE specimen SYSTEM "//bar.utoronto.ca/efp/cgi-bin/data/efp_config.dtd">
 <specimen name="Arabidopsis">
+	<info>
+		<li>Plant material from the leaves of 28 day old wild-type <i>Arabidopsis thaliana</i> plants of Columbia-0 ecotype was analyzed.</li>
+		<li>Inoculation was done via settling tower, using 10 day old <i>Erysiphe orontii</i> cultures.</li>
+		<li>Leaves number 7 to 10 were selected for profiling.</li>
+		<li>Plants grown under 12/12 hour light/dark conditions with all measurements taken in the middle of the light period.</li>
+		<li>All measurements were taken in triplicates - the average of which is shown.</li>
+		<li>RNA was isolated an hybridized to the ATH1 GeneChip.</li>
+		<li>The data were normalized by GCOS normalization, TGT 100.</li>
+		<li>This study is part of the AtGenExpress project, funded by the NSF.</li>
+		<li>Results provided by the Ausubel Lab.</li>
+	</info>
 	<view name="all" class="" db="atgenexp_pathogen">
-		
-		<InfoButton id="infoButton_Erysiphe_orontii" name="
-		&lt;p&gt;Plant material from the leaves of 28 day old wild-type &lt;i&gt;Arabidopsis thaliana&lt;/i&gt; plants of Columbia-0 ecotype was analyzed.&lt;/p&gt;
-		&lt;p&gt;Inoculation was done via settling tower, using 10 day old &lt;i&gt;Erysiphe orontii&lt;/i&gt; cultures.&lt;/p&gt;
-		&lt;p&gt;Leaves number 7 to 10 were selected for profiling.&lt;/p&gt;
-		&lt;p&gt;Plants grown under 12/12 hour light/dark conditions with all measurements taken in the middle of the light period.&lt;/p&gt;
-		&lt;p&gt;All measurements were taken in triplicates - the average of which is shown.&lt;/p&gt;
-		&lt;p&gt;RNA was isolated an hybridized to the ATH1 GeneChip.&lt;/p&gt;
-		&lt;p&gt;The data were normalized by GCOS normalization, TGT 100.&lt;/p&gt;
-		&lt;p&gt;This study is part of the AtGenExpress project, funded by the NSF.&lt;/p&gt;
-		&lt;p&gt;Results provided by the Ausubel Lab.&lt;/p&gt;" />
-		
-		
-		
 		<group name="Erysiphe orontii at 6 Hours">
 			<control sample="JD AT+EO COL WT 06H UNINFECTED"/>
 			<control sample="JD AT+EO COL WT EXP2 06H UNINFECTED"/>

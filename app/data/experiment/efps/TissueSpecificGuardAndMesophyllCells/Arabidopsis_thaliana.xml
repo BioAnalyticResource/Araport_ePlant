@@ -3,12 +3,12 @@
 <specimen name="Arabidopsis">
 <view name="all" class="" db="atgenexp_plus" img="TissueSpecific-GuardAndMesophyllCells-2015-01-12.svg">
 	<info>
-		<p>Plant material from the leaves of 5 week old Arabidopsis thaliana plants of Columbia-0 ecotype was analyzed.</p>
-		<p>Mesophyll and guard cell protoplasts were used.</p>
-		<p>Plants grown in growth room under 16/8 hour light/dark conditions at 22°C</p>
-		<p>Measurements were taken in duplicates - the average of which is shown. Actinomycin and cordycepin were added to one of the reps. The individual reps are displayed in the table below.</p>
-		<p>RNA was isolated and hybridized to the ATH1 GeneChip. The data were normalized by GCOS normalization, TGT 100.</p>
-		<p>Results from Yang et al. (2008) Plant Methods 4:6</p> 						
+		<li>Plant material from the leaves of 5 week old Arabidopsis thaliana plants of Columbia-0 ecotype was analyzed.</li>
+		<li>Mesophyll and guard cell protoplasts were used.</li>
+		<li>Plants grown in growth room under 16/8 hour light/dark conditions at 22°C</li>
+		<li>Measurements were taken in duplicates - the average of which is shown. Actinomycin and cordycepin were added to one of the reps. The individual reps are displayed in the table below.</li>
+		<li>RNA was isolated and hybridized to the ATH1 GeneChip. The data were normalized by GCOS normalization, TGT 100.</li>
+		<li>Results from Yang et al. (2008) Plant Methods 4:6</li> 						
 	</info>
 	<group name="CTRL_7">
 		<tissue id="Mesophyll_cells_with_100_uM_ABA" name="Mesophyll cells, with 100 uM ABA" colorKey="#008800">
