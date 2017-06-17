@@ -1341,7 +1341,7 @@
 						show: $.proxy(function(event, api) {
 							var content = this.tooltipText;
 							if(Eplant.viewColorMode == "relative"){
-								if(this.log2Value){
+								if(this.group.log2Value){
 									content += "</br>Fold-change v. control: " + this.group.foldChange;
 									content += "</br>Log2 of fold change: " + this.group.log2Value;
 									api.tooltip.css({
