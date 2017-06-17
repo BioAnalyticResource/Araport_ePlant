@@ -313,11 +313,13 @@
 				/* Update button */
 				if (Eplant.viewColorMode == "absolute") {
 					Eplant.viewColorMode = "relative";
+					Eplant.globalColorMode = "relative";
 					this.setImageSource("app/img/efpmode-relative.png");
 					this.setDescription("Toggle data mode: relative.");
 				}
 				else if (Eplant.viewColorMode == "relative" ||Eplant.viewColorMode == "compare") {
 					Eplant.viewColorMode = "absolute";
+					Eplant.globalColorMode = "absolute";
 					this.setImageSource("app/img/efpmode-absolute.png");
 					this.setDescription("Toggle data mode: absolute.");
 				}
@@ -608,78 +610,82 @@
 				
 				/* Create labels */
 				//this.labels = $(response).find('labels');
-				
-				
+
 				/* Create groups */
 				this.groups = [];
-				var groupsXml = $(response).find('tissue');
-				for (var n = 0; n < groupsXml.length; n++) {
-					
-					/* Get group data */
-					var groupData = groupsXml[n];
-					
-					/* Asher: My solution is to have an if statement to read all control data for each group
-						if (typeof groupData.control != 'undefined') {
-						alert(groupData.control.id);
-						}
-					*/
-					
-					/* Create group object */
-					var group = {
-						id: groupData.attributes['id'].value,
-						name: groupData.attributes['name'].value,
-						samples: [],
-						ctrlSamples: [],
-						source: groupData.source,
-						color: Eplant.Color.White,
-						isHighlight: false,
-						tooltip: null,
-						fillColor: Eplant.Color.White,
-						ePlantLink: groupData.attributes['ePlantLink']?groupData.attributes['ePlantLink'].value:null,
-						link: $('link', groupData).attr('url'),
-						database: this.database?this.database:'',
-						colorKey:groupData.attributes['colorKey'].value
-					};
-					/* Prepare wrapper object for proxy */
-					var wrapper = {
-						group: group,
-						eFPView: this
-					};
-					
-					/* Prepare samples */
-					var samplesXml = $('sample', groupData);
-					for (var m = 0; m < samplesXml.length; m++) {
-						var sample = {
-							name: samplesXml[m].attributes['name'].value,
-							value: null
+				var groupsGroup = $(response).find('group');
+				for (var i = 0; i < groupsGroup.length; i++) {
+					var groupsGroupData = groupsGroup[i]
+					var groupsXml = $('tissue', groupsGroupData);
+					for (var n = 0; n < groupsXml.length; n++) {
+						
+						/* Get group data */
+						var groupData = groupsXml[n];
+						
+						/* Asher: My solution is to have an if statement to read all control data for each group
+							if (typeof groupData.control != 'undefined') {
+							alert(groupData.control.id);
+							}
+						*/
+						
+						/* Create group object */
+						var group = {
+							id: groupData.attributes['id'].value,
+							name: groupData.attributes['name'].value,
+							samples: [],
+							ctrlSamples: [],
+							source: groupData.source,
+							color: Eplant.Color.White,
+							isHighlight: false,
+							tooltip: null,
+							fillColor: Eplant.Color.White,
+							ePlantLink: groupData.attributes['ePlantLink']?groupData.attributes['ePlantLink'].value:null,
+							link: $('link', groupData).attr('url'),
+							database: this.database?this.database:'',
+							colorKey:groupData.attributes['colorKey'].value
+						};
+						/* Prepare wrapper object for proxy */
+						var wrapper = {
+							group: group,
+							eFPView: this
 						};
 						
-						/* Add it the samples array */
-						samples.push(sample);
-						
-						/* Add to group samples */
-						group.samples.push(sample);
-					}
-					
-					/* Asher: Prepare samples for controls if it exists in the group */
-					var controlsXml = $('sample', groupsXml);
-					if (controlsXml !== undefined) {
-						for (var m = 0; m < controlsXml.length; m++) {
+						/* Prepare samples */
+						var samplesXml = $('sample', groupData);
+						for (var m = 0; m < samplesXml.length; m++) {
 							var sample = {
-								name: controlsXml[m].attributes['name'].value,
+								name: samplesXml[m].attributes['name'].value,
 								value: null
 							};
 							
 							/* Add it the samples array */
 							samples.push(sample);
-							group.ctrlSamples.push(sample);
+							
+							/* Add to group samples */
+							group.samples.push(sample);
 						}
+						
+						/* Asher: Prepare samples for controls if it exists in the group */
+						var controlsXml = $('control', groupsGroupData);
+						if (controlsXml !== undefined) {
+							for (var m = 0; m < controlsXml.length; m++) {
+								var sample = {
+									name: controlsXml[m].attributes['sample'].value,
+									value: null
+								};
+								
+								/* Add it the samples array */
+								samples.push(sample);
+								group.ctrlSamples.push(sample);
+							}
+						}
+						
+						/* Append group to array */
+						this.groups.push(group);
+						
 					}
-					
-					/* Append group to array */
-					this.groups.push(group);
-					
 				}
+				
 				this.InfoButtons = [];
 				var InfoButtonsXml = $(response).find('InfoButton');
 				for (var n = 0; n < InfoButtonsXml.length; n++) {
@@ -813,6 +819,7 @@
 			
 			
 			this.log2Value = Math.round(ZUI.Math.log(this.mean / this.ctrlMean, 2) * 100) / 100;
+			this.foldChange = Math.round((this.mean/this.ctrlMean) * 100) / 100;			
 			this.absLog2Value = this.log2Value<0?-this.log2Value:this.log2Value;
 		}
 		
@@ -1335,9 +1342,10 @@
 							var content = this.tooltipText;
 							if(Eplant.viewColorMode == "relative"){
 								if(this.log2Value){
-									content += "</br>Log2 Ratio relative to control: " + this.group.log2Value;
+									content += "</br>Fold-change v. control: " + this.group.foldChange;
+									content += "</br>Log2 of fold change: " + this.group.log2Value;
 									api.tooltip.css({
-										width:"265px"
+										width:"225px"
 									});
 								}
 								else{

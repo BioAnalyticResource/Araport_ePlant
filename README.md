@@ -8,7 +8,7 @@ This is ePlant from the BAR developed for the Araport project. This was develope
 3. Workspace page will load. On the top right, there is a wheel. Click the wheel, and click "Install an App".
 4. Enter the following: <br />
 URL: https://github.com/BioAnalyticResource/Araport_ePlant.git <br />
-Release version: v0.1.27 <br />
+Release version: v0.1.29 <br />
 and click "Save" <br />
 5. The page will reload. Click on "View App Full Screen"
 6. Enter a gene, and it should work.
